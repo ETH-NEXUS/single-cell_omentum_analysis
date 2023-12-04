@@ -1,0 +1,61 @@
+2021-08-24
+downloaded excel table (first tab) from https://docs.google.com/spreadsheets/d/1jLCalr8MXvbeeYLmnUmhRk9yMGWYyX3hSYnOE0xV2Vk/edit#gid=252340860
+
+
+Manually adapted cluster labels (e.g. cluster 5 had two labels, chose Myeloid)
+Cluster 7 and 17 were missing
+
+Final labels:
+
+cluster_id      label
+3       T.NK.cells
+11      T.NK.cells
+12      T.NK.cells
+19      T.NK.cells
+20      T.NK.cells
+22      T.NK.cells
+17      T.NK.cells
+23      T.NK.cells
+1       Mesothelial.cells
+4       Mesothelial.cells
+13      Mesothelial.cells
+18      Mesothelial.cells
+2       Mesenchymal.Progenitor
+8       Mesenchymal.Progenitor
+5       Myeloid
+15      Monocyte.Macrophage
+10      Plasmacytoid.Dendritic.Cells
+25      Mast.Cells
+9       Endothelial.cells
+6       Lymphatic.Endothelial.Cells
+14      Tumor/HGSOC
+16      B.cells
+21      Plasma.cells
+24      EMT
+7       Noise
+
+#########
+Tcell marker genes
+#########
+4 genes were duplicated -> removed
+Length T cell gene list: 148 genes
+
+Note: not all tcell genes are contained in the final gene matrix:
+missing:
+
+ KIR2DL2
+KIR2DL5A
+KIR2DL5B
+ KIR2DP1
+ KIR2DS1
+ KIR2DS2
+ KIR2DS3
+ KIR2DS4
+ KIR2DS5
+    NCR2
+    CCL1
+     IL5
+     IL4
+   STAT5
+
+-> 134 genes are left

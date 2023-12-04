@@ -1,22 +1,33 @@
-Environment and modules used for this analysis:
-> conda activate conda_envs/scAmpi_scRNA ; module load eth_proxy ; export PATH=path/to/cellranger/cellranger-6.0.1:$PATH
+# Single Cell Omentum Analysis
 
-2020-12
-Code and resources required for omentum sample cohort analysis
+This is a repository of the code and resources necessary to run the downstream analysis described in the paper *cell atlas of the human omentum in health and metastasis reveals mechanisms of  tissue homeostasis and reprogramming in response to ovarian cancer colonization* by Lischetti et al.
 
-Basic single cell analysis functionality is taken from the NEXUS/single_cell_analysis git repository
+## Structure
 
-2020-12-17
-- novaseq preprocessing is not possible with 36 samples, the index hopping removal takes an infeasible amount of memory
+The repository has the following structure:
+- docs: additional readme documents for procedures. Code includes inline comments, but additional details can be found in this folder
+- omentum_required: resources and configuration file either mandatory for scripts to run successfully or necessary to replicate the final results
+- scripts: collection of scripts used for the downstream analysis and visualization. Each sub-directory includes scripts for a specific analysis type
+- snake_files: custom configuration used for the snakemake pipeline
 
-- test runs for index hopping removal in:
-gfb_omentum_2020/analysis/2020-12_cohort/preprocessing/
 
-2021-01
-- Rerun pilot samples with latest tupro pipeline, for updated normalization -> preparation for cell type marker classification
 
-- Initial single sample run also with latest tupro pipeline (similar to ovca SOP 7.8)
 
-2021-01-21
-- Prepared gene set list for more comprehensive gsva analysis, rerun gsva step for cohort samples
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

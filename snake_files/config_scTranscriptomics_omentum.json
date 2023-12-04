@@ -1,0 +1,320 @@
+{
+    "inputOutput":{
+        "input_fastqs":"tumorProfiler/analysis/poc/MSJLF.T_sample95/singlecell_rna/openbis/",
+        "input_fastqc":"tumorProfiler/analysis/poc/MSJLF.T_sample95/singlecell_rna/fastqc/",
+        "analysis_output_dir":"tumorProfiler/analysis/poc/MSJLF.T_sample95/singlecell_rna/analysis/",
+        "analysis_temp_dir":"tumorProfiler/analysis/poc/MSJLF.T_sample95/singlecell_rna/snake_temp/",
+        "sample_map":"tumorProfiler/analysis/poc/MSJLF.T_sample95/singlecell_rna/snake_analysis_files/auto_sample_map.tsv",
+        "malignant_cell_type":"HGSOC",
+        "sequencing_runName":"sequencingName"
+    },
+    "resources":{
+        "pathwayDB":"heinzelmann_omentum_2018/git/tupro-pipeline/required_files/ovarian/ovarian_genesets_converted.gmt",
+        "drugList":"heinzelmann_omentum_2018/git/tupro-pipeline/required_files/ovarian/drug_list_ovarian.txt",
+        "drugCombinations":"heinzelmann_omentum_2018/git/tupro-pipeline/required_files/ovarian/drug_combinations_ovarian.txt",
+        "civicDict":"heinzelmann_omentum_2018/git/tupro-pipeline/required_files/drug_synonyms_civic.txt",
+        "reference_transcriptome":"utilities/databases/singlecell/10xGenomics/gene_expression_3_0_2/refdata-cellranger-GRCh38-3.0.0",
+        "transcriptome_code":"GRCh38",
+        "derived_suffixList":"heinzelmann_omentum_2018/git/tupro-pipeline/required_files/scRNA/scRNA__derived__ovarian.txt",
+        "celltype_lists":"heinzelmann_omentum_2018/analysis/2020-08-18_omentum_longSeq/celltype_list_omentum_integrated_plusHGSOC.gmx",
+        "celltype_config":"heinzelmann_omentum_2018/analysis/2020-08-18_omentum_longSeq/celltype_config_omentum_integrated.tsv",
+        "colour_config":"heinzelmann_omentum_2018/analysis/2020-08-18_omentum_longSeq/colour_config_omentum_integrated.txt",
+        "genesets":"heinzelmann_omentum_2018/git/omentum_required/omentum_genesets.gmt",
+        "previous_samples":"heinzelmann_omentum_2018/git/tupro-pipeline/required_files/ovarian/previous_ovarian_samples_cell_types.txt",
+        "previous_samples_counts":"heinzelmann_omentum_2018/git/tupro-pipeline/required_files/ovarian/previous_ovarian_samples_RDS.txt",
+        "priority_genes":"heinzelmann_omentum_2018/git/omentum_required/priority_genes_omentum.txt"
+    },
+    "tools":{
+        "cellranger_count":{
+            "call":"cellranger",
+            "local_cores":24,
+            "scratch":"20000",
+            "mem":"6000",
+            "time":"1440",
+            "threads":24,
+            "variousParams":"",
+            "cellranger_sampleName":"mySampleName"
+        },
+        "create_hd5":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/create_hdf5.py ",
+            "scratch":"2000",
+            "mem":"1000",
+            "time":"100",
+            "threads":4
+        },
+        "filter_genes_and_cells":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/filter_genes_and_cells.R ",
+            "nmads_fractionMT":"100",
+            "nmads_NODG":"100",
+            "threshold_NODG":"400",
+            "threshold_fractionMT":"0.5",
+            "genomeVersion":"GRCh38",
+            "scratch":"2000",
+            "mem":"8000",
+            "time":"400",
+            "threads":4
+        },
+        "sctransform_preprocessing":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/sctransform_preprocessing.R ",
+            "scratch":"2000",
+            "mem":"4000",
+            "time":"400",
+            "threads":4,
+            "number_genes":"2000",
+            "min_var":"1.5",
+            "n_nn":"30"
+        },
+        "clustering":{
+            "phenograph":{
+                "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/apply_phenograph.py ",
+                "n_neighbours":30,
+                "log_normalize":false,
+                "min_cluster_size": 20,
+                "scratch":"2000",
+                "mem":"1000",
+                "time":"400",
+                "threads":8
+            }
+        },
+        "prepare_celltyping":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/prepare_celltyping.R ",
+            "scratch":"2000",
+            "mem":"4000",
+            "time":"200",
+            "threads":4
+        },
+        "cell_type_classification":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/celltyping.r ",
+            "scratch":"2000",
+            "mem":"4000",
+            "time":"200",
+            "threads":4
+        },
+        "remove_atypical":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/filter_out_atypical_cells.R ",
+            "scratch":"2000",
+            "mem":"4000",
+            "time":"200",
+            "threads":4,
+            "threshold_filter":"5",
+            "min_threshold":"5",
+            "threshold_type":"percentage_cells"
+        },
+        "gsva":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/celltyping_gsva.r ",
+            "scratch":"2000",
+            "mem":"4000",
+            "time":"200",
+            "threads":4
+        },
+        "plotting":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/scRNA_pipeline_plotting.R ",
+            "use_alias":"TRUE",
+            "scratch":"2000",
+            "mem":"4000",
+            "time":"200",
+            "threads":4
+        },
+        "diff_exp":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/apply_DE_analysis.R",
+            "threshold_comparison":"20",
+	    "fdr_cut":"0.01",
+	    "fc_cut":"2",
+	    "mindiff2second":"1",
+            "minNumberNonMalignant":"2",
+            "scratch":"2000",
+            "mem":"12000",
+            "time":"400",
+            "threads":4
+        },
+        "gene_exp":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/get_cluster_gene_expression.R ",
+            "scratch":"2000",
+            "mem":"8000",
+            "time":"200",
+            "threads":1,
+            "threshold_sample":"0",
+            "type_sample":"number_cells"
+        },
+        "parseAndFilter_DEgenes":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/parseAndFilter_DEgenes.py ",
+            "scratch":"2000",
+            "mem":"300",
+            "time":"200",
+            "threads":1,
+            "variousParams":"0.01 gene_names padj diff test_statistic nonmal_max nonmal_min malig_mean 1 1 'pct_nonzero'"
+        },
+        "annotateClinical":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/annotateWithClinicalInfo.py ",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"200",
+            "threads":1,
+            "variousParams":"--colName_gene gene_names"
+        },
+        "queryDGIDB":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/Query_DGIdb_Script_v1.r ",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"239",
+            "threads":1,
+            "colName_genes":"gene_names",
+            "minDatabaseNum":"4"
+        },
+        "queryCIVIC":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/Query_CIViC_expr.py ",
+            "scratch": "2000",
+            "mem": "2000",
+            "time": "200",
+            "threads": 1,
+            "cancerType": "ovarian",
+            "blackList": "'sex cord-stromal,granulosa cell,glandular pattern",
+            "highLevel": "solid tumor",
+            "colName_gene": "gene_names",
+            "colName_logFC": "diff",
+            "strictExpression":"y"
+        },
+        "geneSetEnrichment":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/GeneSetEnrichmentAnalysis.R ",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"200",
+            "threads":4,
+            "variousParams":"test_statistic"
+        },
+        "plotGeneSetEnrichment":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/plot_genesets_heatmap.R ",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"200",
+            "threads":4,
+            "variousParams":""
+        },
+        "queryClinicalTrials":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/queryClinicalTrials.py ",
+            "scratch":"3000",
+            "mem":"500",
+            "time":"800",
+            "threads":8,
+            "whiteList":"ovarian",
+            "blackList":""
+        },
+        "downloadClinicalTrials":{
+            "scratch":"5000",
+            "mem":"500",
+            "time":"1200",
+            "threads":12,
+            "cancerType":"cancer"
+        },
+        "cellPercentInCluster":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/count_cells_in_clusters.py ",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"200",
+            "threads":1,
+            "variousParams":"--malignant HGSOC"
+        },
+        "assemble_non_malignant_reference":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/assemble_library_non_malignant_cells.R ",
+            "scratch":"2000",
+            "mem":"15000",
+            "time":"300",
+            "threads":4,
+	    "hdf5_dir": "heinzelmann_omentum_2018/git/tupro-pipeline/required_files/melanoma/non_malignant_cohort_hdf5_links/",
+	    "celltype_dir": "heinzelmann_omentum_2018/git/tupro-pipeline/required_files/melanoma/non_malignant_cohort_celltype_classif_links/",
+	    "non_malignant_types": "heinzelmann_omentum_2018/git/tupro-pipeline/required_files/melanoma/list_non_malignant_celltypes_melanoma.txt"
+        },
+        "plot_tSNE_nonmalignant":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/plot_tSNEs_non_malignant_cell_libraries.R ",
+            "scratch":"2000",
+            "mem":"24000",
+            "time":"200",
+            "threads":1,
+            "variousParams":""
+        },
+        "parseDgidbTrialsTable_for_minSetCover":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/parseDgidbTrialsTable_for_minSetCover.py ",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"200",
+            "threads":1,
+            "colName_DGIDB_score":"Score",
+            "colName_clinTrial":"ClinicalTrials"
+        },
+        "findminSetCover":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/minSetCover.py ",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"200",
+            "threads":1,
+            "variousParams":"--considerClusterSize no"
+        },
+        "filterDrugs":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/filter_by_drug_list.py ",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"200",
+            "threads":1,
+            "variousParams":""
+        },
+        "preprocessForUpSetR":{
+            "call":"tumorProfiler/code/installations/snakemake_v5.1.4/bin/python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/preprocess_parsedTrialsTable_forUpsetplot.py ",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"200",
+            "threads":1
+        },
+        "plotUpSetR":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/generate_upsetplot_drugs_targeting_clusters.R",
+            "scratch":"2000",
+            "mem":"200",
+            "time":"200",
+            "threads":1,
+            "variousParams":"--nintersects 20 --nsets 100"
+        },
+        "organize_results_copy":{
+            "call":"sh heinzelmann_omentum_2018/git/tupro-pipeline/scripts/prepare_results_upload.sh ",
+            "call_noTumor":"sh heinzelmann_omentum_2018/git/tupro-pipeline/scripts/prepare_results_upload_noTumor.sh ",
+            "scratch":"2000",
+            "mem":"1000",
+            "time":"400",
+            "threads":4
+        },
+        "generate_qc_plots":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/generate_QC_plots.R ",
+            "scratch":"2000",
+            "mem":"8000",
+            "time":"400",
+            "threads":4
+        },
+        "generate_cell_type_boxplot":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/generate_boxplot_fractions_celltypes.R ",
+            "scratch":"2000",
+            "mem":"4000",
+            "time":"200",
+            "threads":4
+        },
+        "sample_integration":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/sample_integration.R ",
+            "scratch":"2000",
+            "mem":"12000",
+            "time":"200",
+            "threads":12
+        },
+        "show_drugPrediction_on_clones":{
+            "call":"Rscript heinzelmann_omentum_2018/git/tupro-pipeline/scripts/show_drugPrediction_on_clones.R ",
+            "scratch":"2000",
+            "mem":"4000",
+            "time":"200",
+            "threads":4,
+	    "variousParams":"--drugPredEnd 'clinicalAnnotation.civic.txt' --name_DGIDB 'DGIDB-drugs(Score,Type)' --name_CIVIC 'CIViC_Drug_Support'"
+        },
+        "get_full_druglist_to_subclones":{
+            "call":"python heinzelmann_omentum_2018/git/tupro-pipeline/scripts/get_full_druglist_to_subclones_assignm.py ",
+            "scratch":"2000",
+            "mem":"1000",
+            "time":"400",
+            "threads":4
+        }
+    }
+}

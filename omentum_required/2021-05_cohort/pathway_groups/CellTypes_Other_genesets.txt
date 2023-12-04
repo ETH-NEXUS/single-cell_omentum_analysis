@@ -1,0 +1,8 @@
+CellTypes_Other	GO_MESENCHYMAL_EPITHELIAL_CELL_SIGNALING
+CellTypes_Other	MESOTHELIAL
+CellTypes_Other	Mesothelial_extended
+CellTypes_Other	Granulocyte_Signature
+CellTypes_Other	Pericyte_Signature
+CellTypes_Other	GO_CHAPERONE_MEDIATED_PROTEIN_FOLDING
+CellTypes_Other	Erythroid.cells
+CellTypes_Other	Mesothelial_cells_marker

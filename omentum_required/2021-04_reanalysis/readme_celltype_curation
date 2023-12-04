@@ -1,0 +1,15 @@
+2021-04
+
+Extend and improve existing omentum cell type sets
+
+1. Include pDC list (curated) used in the TuPro melanoma analysis
+2. included 11 additional signatures curated by Ulli
+3. Change the name of "T.cells.Om_group_0.5.10" to "T.NK.cells"
+4. Add plasma cells
+
+
+2021-05
+
+- Added merged set for Neutrophils based on updated neutrophil signatures by Ulli (2021-5-06)
+- provide plasma cells as Bcell subtype
+- provide only Myeloid cells as major for the myeloid lineage, add Eosinophils, Granulocuytes, Basophiles, neutrophils, mast cells, monocytes as subtypes 

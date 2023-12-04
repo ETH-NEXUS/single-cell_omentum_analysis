@@ -1,0 +1,9 @@
+Major	Subtype
+T.NK.cells	none
+Myeloid.cells_Om	Monocytes_normal_Newman15,Mast.cells_merged_Newman15,Neutrophils_1_2_merged
+B.cells_Om	Plasma.cells_normal_Newman15,B.cells.naive_normal_Newman15,B.cells.memory_normal_Newman15
+Endothelial.cells_Om	none
+Fibroblasts_Om	none
+Mesothelial.cells_Om	none
+HGSOC_ovca_find.markers	none
+Plasmacytoid.dendritic.cells_curated	none

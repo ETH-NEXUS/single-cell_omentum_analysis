@@ -1,0 +1,5 @@
+HGOSC_1_5	01_Differentiated_FT
+HGOSC_1_5	02_KRT17_FT
+HGOSC_1_5	03_EMT_FT
+HGOSC_1_5	04_Cell_cycle_FT
+HGOSC_1_5	05_Ciliated_FT

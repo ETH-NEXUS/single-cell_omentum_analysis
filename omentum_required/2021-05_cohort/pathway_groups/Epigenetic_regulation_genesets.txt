@@ -1,0 +1,5 @@
+Epigenetic_regulation	BIOCARTA_HDAC_PATHWAY
+Epigenetic_regulation	PID_HDAC_CLASSI_PATHWAY
+Epigenetic_regulation	PID_HDAC_CLASSII_PATHWAY
+Epigenetic_regulation	PID_HDAC_CLASSIII_PATHWAY
+Epigenetic_regulation	REACTOME_HDACS_DEACETYLATE_HISTONES

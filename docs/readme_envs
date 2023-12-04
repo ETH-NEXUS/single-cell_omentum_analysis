@@ -1,0 +1,14 @@
+Load environment and modules for analysis:
+
+# cellranger:
+> conda activate conda_envs/scAmpi_scRNA ; module load eth_proxy ; export PATH=path/to/cellranger/cellranger-6.0.1:$PATH
+# cellchat
+> conda env create -f scripts/cellchat/env_cellchat.yml
+> conda activate cellchat
+# velocity
+> conda env create -f scripts/velocity/env_rna_velocity.yaml
+> conda activate rna_velocity
+# analysis
+> conda env create -f omentum_requires/gfb_omentum_conda_env.yaml
+> conda activate gfb_omentum
+

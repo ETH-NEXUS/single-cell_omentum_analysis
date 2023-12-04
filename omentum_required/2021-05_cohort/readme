@@ -1,0 +1,12 @@
+126 selected gene categories
+
+
+2021-05-28 pathways from the additiona selection that are not in msigdb 7.2:
+
+BIOCARTA_GLYCOLYSIS_PATHWAY
+REACTOME_ACTIVATED_AMPK_STIMULATES_FATTY_ACID_OXIDATION_IN_MUSCLE
+PENG_GLUTAMINE_DEPRIVATION_UP
+
+
+Create gmt file per category (in total 83 categories):
+for f in $(less pathway_category_names.txt) ; do for set in $(cut -f 2 pathway_groups/${f}_genesets.txt) ; do grep -w ${set} omentum_cohort_combined_genesets_2021-05.gmt >> pathway_groups/${f}.gmt ; done ; done

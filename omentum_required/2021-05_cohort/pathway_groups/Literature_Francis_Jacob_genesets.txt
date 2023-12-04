@@ -1,0 +1,5 @@
+Literature_Francis_Jacob	01_Differentiated_FT
+Literature_Francis_Jacob	02_KRT17_FT
+Literature_Francis_Jacob	03_EMT_FT
+Literature_Francis_Jacob	04_Cell_cycle_FT
+Literature_Francis_Jacob	05_Ciliated_FT
