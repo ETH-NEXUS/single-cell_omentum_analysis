@@ -1,11 +1,3 @@
-###################################################
-## File name: cell_level_pw_comparison.R
-## Author: Matteo Carrara
-###################################################
-
-## GENERAL:
-## This script generate pathway comparison results at cell level using cellchat
-
 library(SingleCellExperiment)
 library(optparse)
 library(CellChat)
@@ -62,13 +54,13 @@ for(k in 1:length(cellchatlist)){
     for(i in 1:length(myct)){
 
         incr_out <- try({netVisual_bubble(cellchatlist[[k]], sources.use = c(myct[i]), targets.use = c(1:length(myct)),  comparison = c(1, 2), max.dataset = 2, title.name = paste0("Increased signaling in ", cellchatnames[2]), angle.x = 45, remove.isolate = T)},silent=TRUE)
-        if(is(incr_out)=="try-error"){incr_out <- NULL}else{incr_out <- incr_out$data}
+        if(is(incr_out)=="try-error"){incr_out <- NULL}else{incr_out <- incr_out$data; incr_out$type="increased-outgoing"}
         decr_out <- try({netVisual_bubble(cellchatlist[[k]], sources.use = c(myct[i]), targets.use = c(1:length(myct)),  comparison = c(1, 2), max.dataset = 1, title.name = paste0("Decreased signaling in ", cellchatnames[2]), angle.x = 45, remove.isolate = T)},silent=TRUE)
-        if(is(decr_out)=="try-error"){decr_out <- NULL}else{decr_out <- decr_out$data}
+        if(is(decr_out)=="try-error"){decr_out <- NULL}else{decr_out <- decr_out$data; decr_out$type="decreased-outgoing"}
         incr_in <- try({netVisual_bubble(cellchatlist[[k]], sources.use = c(1:length(myct)), targets.use = myct[i],  comparison = c(1, 2), max.dataset = 2, title.name = paste0("Increased signaling in ", cellchatnames[2]), angle.x = 45, remove.isolate = T)},silent=TRUE)
-        if(is(incr_in)=="try-error"){incr_in <- NULL}else{incr_in <- incr_in$data}
+        if(is(incr_in)=="try-error"){incr_in <- NULL}else{incr_in <- incr_in$data; incr_in$type="increasing-incoming"}
         decr_in <- try({netVisual_bubble(cellchatlist[[k]], sources.use = c(1:length(myct)), targets.use = myct[i],  comparison = c(1, 2), max.dataset = 1, title.name = paste0("Decreased signaling in ", cellchatnames[2]), angle.x = 45, remove.isolate = T)},silent=TRUE)
-        if(is(decr_in)=="try-error"){decr_in <- NULL}else{decr_in <- decr_in$data}
+        if(is(decr_in)=="try-error"){decr_in <- NULL}else{decr_in <- decr_in$data; decr_in$type="decreasing-incoming"}
         tmp <- rbind(incr_out, incr_in, decr_out, decr_in)
         tmp <- tmp[which(tmp$source==myct[i]),]
         tmp <- tmp[which(tmp$target==myct[i]),]
